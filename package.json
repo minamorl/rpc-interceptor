@@ -1,11 +1,15 @@
 {
   "name": "rpc-interceptor",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "JSON-RPC request/response handler",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rm -r dist && tsc",
+    "prepublishOnly": "npm run build && npm test",
     "test": "ts-node ./tests/index.ts"
   },
   "repository": {
