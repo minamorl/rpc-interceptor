@@ -1,7 +1,7 @@
 {
   "name": "rpc-interceptor",
   "version": "0.0.1",
-  "description": "rpc-interceptor is tiny flamework for JSON-RPC serialization/deserialization",
+  "description": "JSON-RPC request/response handler",
   "main": "dest/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/minamorl/rpckit.git"
+    "url": "git+https://github.com/minamorl/rpc-interceptor.git"
   },
   "keywords": [
     "JSON-RPC"
@@ -18,9 +18,9 @@
   "author": "minamorl",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/minamorl/rpckit/issues"
+    "url": "https://github.com/minamorl/rpc-interceptor/issues"
   },
-  "homepage": "https://github.com/minamorl/rpckit#readme",
+  "homepage": "https://github.com/minamorl/rpc-interceptor#readme",
   "devDependencies": {
     "@types/tape": "^4.2.32",
     "tape": "^4.9.1",
