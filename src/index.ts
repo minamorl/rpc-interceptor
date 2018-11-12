@@ -53,7 +53,7 @@ export class RPCInterceptor {
     constructor(functionMap?: Map<string, Function>) {
         this.functionMap = functionMap ? functionMap : new Map
     }
-    registerFunction(str: string, fn: Function) {
+    register(str: string, fn: Function) {
         return this.functionMap.set(str, fn)
     }
     execute = (str: string) => {
