@@ -58,16 +58,22 @@ export class RPCInterceptor {
     }
     execute = (str: string) => {
         let parsed: Array<IDeserializedRequest> 
+        let isBatch = false
         try {
             const _parsed = tryParse(str)
-            if (!Array.isArray(_parsed)) parsed = [_parsed]
-            else parsed = _parsed
+            isBatch = Array.isArray(_parsed)
+            if (!Array.isArray(_parsed)) {
+                parsed = [_parsed]
+            } else {
+                parsed = _parsed
+            }
         } catch (e) {
             return e.response(null)
         }
-        const response = parsed.map(this._execute)
-
-        if (response.length === 1)
+        const response = parsed.map(this._execute).filter(x => x)
+        if (response.length === 0)
+            return
+        if (response.length === 1 && !isBatch)
             return response[0]
         return response
     }
@@ -80,15 +86,19 @@ export class RPCInterceptor {
             } else {
                 response = {"result": this.functionMap.get(parsed["method"])!(parsed.params)}
             }
-            return _r(response, parsed.id)
+            if (parsed.id) {
+                return _r(response, parsed.id)
+            }
         } catch(e) {
             if (parsed.id)
                 return e.response(parsed.id)
+            if (e.code === -32600)
+                return e.response(null)
             return e.response()
         }
     }
     private validateRequest = (deserialized: IDeserializedRequest) => {
-        if (deserialized["jsonrpc"] !== "2.0") {
+        if (deserialized["jsonrpc"] !== "2.0" || typeof deserialized["method"] !== "string") {
             throw new RPCInterceptorError(-32600)
         }
         if (!this.functionMap.has(deserialized["method"])) {
